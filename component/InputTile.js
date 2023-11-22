@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native"
-export default function (){
+export default function InputTile(){
     return(
         <View>
             
