@@ -3,7 +3,8 @@ import Button from "../component/Button";
 import InputTile from "../component/InputTile";
 import Input from "../component/Input";
 import { GlobalStyles } from "../Styles/LightMode";
-export default function Reset(){
+export default function Reset({route}){
+    
     return(
         <View style={styles.container}>
         

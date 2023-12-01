@@ -1,10 +1,14 @@
 import {Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {GlobalStyles} from '../Styles/LightMode';
 import TaskTile from '../component/TaskTile';
-
-export default function Home({navigation}) {
+import { ActivityIndicator } from 'react-native-paper';
+import CircularProgress from 'react-native-circular-progress-indicator';
+import Progress from '../component/Progress';
+export default function Home({navigation,route}) {
+  // const {role}=route.params
+  const {role}=route.params;
+  // const role='doctor';
   return (
-    // <SafeAreaView>
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Image
@@ -12,8 +16,8 @@ export default function Home({navigation}) {
           style={{height: 50, width: 50}}
         />
         <View style={styles.header1}>
-          <Text style={{fontWeight: '600', fontSize: 16}}>Hello</Text>
-          <Text style={{fontWeight: '800', fontSize: 16}}>Rajesh Murmu</Text>
+          <Text style={{fontWeight: '600', fontSize: 16,color:'black'}}>Hello</Text>
+          <Text style={{fontWeight: '800', fontSize: 16,color:'black'}}>{role==='nurse'?'Saraswati Kumari':(role=='doctor'?'Dr Sultan null':'user')}</Text>
         </View>
       </View>
       <View style={styles.status}>
@@ -26,13 +30,23 @@ export default function Home({navigation}) {
           }}>
           Current Status
         </Text>
-        <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-          <View style={{borderRadius: 10}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginTop:18}}>
+        
+       </View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View>
+            <Progress/>
+          <View style={styles.textView}>
             <Text style={styles.text}>Expected Turnout</Text>
-          </View>
-
-          <Text style={styles.text}>Total Queue</Text>
-          <Text style={styles.text}>Closed Prescription</Text>
+          </View></View>
+          <View>
+            <Progress/>
+          <View style={styles.textView}>
+          <Text style={styles.text}>Total Queue</Text></View></View>
+          <View>
+            <Progress/>
+          <View style={styles.textView}>
+          <Text style={styles.text}>Closed Prescription</Text></View></View>
         </View>
       </View>
       <View style={{alignItems: 'center', margin: 16}}>
@@ -45,24 +59,50 @@ export default function Home({navigation}) {
           Task Categories
         </Text>
       </View>
-      <View style={{flexDirection: 'row', marginTop: 20}}>
-        <TaskTile
+      
+        {role=='nurse' && 
+        <>
+        <View style={{flexDirection: 'row', marginTop: 20}}>
+        <TaskTile title={'Queue Status'} onPress={()=>navigation.navigate('Queue')}/>
+        <TaskTile title="Create" 
+         onPress={()=>navigation.navigate('Benificiery')}/>
+         <TaskTile
           title="Lab Results"
           onPress={() => navigation.navigate('LabResult')}
         />
-        <TaskTile title="Search Patient" 
-        onPress={()=>navigation.navigate('Patient')}/>
-        <TaskTile title="Create" 
-         onPress={()=>navigation.navigate('Benificiery')}/>
-
+        
       </View>
       <View style={{flexDirection:'row'}}>
-      <TaskTile title="Stock Status" 
-         onPress={()=>navigation.navigate('Stock')}/>
-         <TaskTile title="Indent Management" 
-         onPress={()=>navigation.navigate('Indent')}/>
-      
+      <TaskTile title="Search Patient" 
+        onPress={()=>navigation.navigate('Patient')}/>
+        <TaskTile title={"Search Prescription"} onPress={()=>navigation.navigate('Prescription')}/>
+        </View>
+        </>
+        }
+     
+     {
+      role=='doctor' &&
+      <>
+      <View style={{flexDirection: 'row', marginTop: 20}}>
+        <TaskTile title={'Change Request'} onPress={()=>navigation.navigate('Queue')}/>
+        <TaskTile title="Follow Ups" 
+         onPress={()=>navigation.navigate('Benificiery')}/>
+         <TaskTile
+          title="Result Awaited"
+          onPress={() => navigation.navigate('LabResult')}
+        />
+        
       </View>
+      <View style={{flexDirection:'row'}}>
+      <TaskTile title="Patient Queue" 
+        onPress={()=>navigation.navigate('Patient')}/>
+        <TaskTile title={"Indent Request"} onPress={()=>navigation.navigate('IndentRequest')}/>
+        <TaskTile title={"Test Results"} onPress={()=>navigation.navigate('LabResult')}/>
+        </View>
+      </>
+     }
+      
+      
 
     </SafeAreaView>
   );
@@ -84,10 +124,17 @@ const styles = StyleSheet.create({
     height: 200,
   },
   text: {
-    backgroundColor: 'white',
-    borderRadius: 20,
+    color:GlobalStyles.colors.p1,
+    fontWeight:'600',
+    fontSize:12
+  },
+  textView:{
     padding: 6,
     margin: 10,
+    backgroundColor:'white',
+    borderRadius: 10,
+    justifyContent:'center',
+    alignItems:'center'
   },
   header: {
     marginTop: 10,

@@ -1,10 +1,10 @@
-import {StyleSheet, TextInput,View,Text} from 'react-native';
+import {StyleSheet, TextInput,View,Text, Platform} from 'react-native';
 import { GlobalStyles } from '../Styles/LightMode';
-
-export default function Input({place}) {
+import {responsiveHeight, responsiveWidth} from 'react-native-responsive-dimensions'
+export default function Input({place,value,onChange}) {
   return (
     <View style={styles.view}>
-      <TextInput placeholder={place} placeholderTextColor={GlobalStyles.colors.p1} style={{fontWeight:'bold'}} />
+      <TextInput placeholder={place} placeholderTextColor={GlobalStyles.colors.p1} style={{fontWeight:'bold'}} value={value} onChangeText={onChange}/>
       
     </View>
   );
@@ -15,10 +15,12 @@ const styles = StyleSheet.create({
         borderWidth:1,
         borderColor:GlobalStyles.colors.p3,
         backgroundColor:'#f5f5f5',
-        padding:16,
+        padding:Platform.OS==='ios'?responsiveHeight(2): responsiveHeight(0.5),
         borderRadius:16,
-        margin:10,
-        borderWidth:4
+        margin:Platform.OS==='ios'?responsiveWidth(3):responsiveWidth(2),
+        borderWidth:4,
+        paddingHorizontal:8,
+        
     },
     input:{
         

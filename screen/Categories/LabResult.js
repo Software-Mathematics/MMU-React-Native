@@ -1,9 +1,10 @@
-import { FlatList, StyleSheet, Text,View } from "react-native";
+import { FlatList, SafeAreaView, StyleSheet, Text,View } from "react-native";
 import { SearchBar } from "react-native-screens";
 import SearchTab from "../../component/SearchTab";
 import { GlobalStyles } from "../../Styles/LightMode";
 import Result from "../../component/Result";
 import CatHead from "../../component/CatHead";
+import HeadIcon from "../../component/HeadIcon";
 const dummy=[
     {
         id:1,
@@ -50,11 +51,12 @@ function renderDetail(itemData){
 }
 export default function LabResult(){
     return(
-        <View>
+        <SafeAreaView>
+            <HeadIcon/>
         <CatHead title='Search Lab Results'/>
             <SearchTab/>
 <FlatList data={dummy} keyExtractor={(item)=>item.id} renderItem={renderDetail}/>
-        </View>
+        </SafeAreaView>
     )
 }
 const styles=StyleSheet.create({

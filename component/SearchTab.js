@@ -5,7 +5,7 @@ import { GlobalStyles } from "../Styles/LightMode";
 export default function SearchTab({place}){
     return(
         <View style={styles.container}>
-            <TextInput placeholder={place} style={{backgroundColor:'transparent'}}/>
+            <TextInput placeholder={place} style={{backgroundColor:'transparent',}}/>
             <Icon name='search-outline' size={26}/>
         </View>
     )
@@ -16,11 +16,11 @@ const styles=StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between',
         margin:10,
-        borderRadius:10,
+        borderRadius:24,
         padding:4,
         borderColor:GlobalStyles.colors.p3,
         borderWidth:4,
-        alignItems:'center'
+        alignItems:'center',
         
     }
 })

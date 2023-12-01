@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text, FlatList, Pressable, SafeAreaView} from 'react-native';
+import {StyleSheet, View, Text, FlatList, Pressable} from 'react-native';
 import CatHead from '../../component/CatHead';
 import SearchTab from '../../component/SearchTab';
 import {GlobalStyles} from '../../Styles/LightMode';
@@ -7,9 +7,10 @@ import { useState } from 'react';
 import { Dialog } from 'react-native-paper';
 import Input from '../../component/Input';
 import Button from '../../component/Button';
+import { SafeAreaView } from 'react-native-macos';
 import HeadIcon from '../../component/HeadIcon';
 
-export default function IndentManagement() {
+export default function IndentRequest() {
     const dummy=[
         {
             id:1,
@@ -42,24 +43,6 @@ export default function IndentManagement() {
             submit:'Rajesh',
             date:'2020-03-03',
             status:'RECIEVED'
-        },{
-            id:6,
-            ID:'rhd-373',
-            submit:'Rajesh',
-            date:'2020-03-03',
-            status:'RECIEVED'
-        },{
-            id:7,
-            ID:'rhd-373',
-            submit:'Rajesh',
-            date:'2020-03-03',
-            status:'RECIEVED'
-        },{
-            id:8,
-            ID:'rhd-373',
-            submit:'Rajesh',
-            date:'2020-03-03',
-            status:'RECIEVED'
         }
     ]
 
@@ -73,21 +56,12 @@ export default function IndentManagement() {
 
   return (
     
-        <SafeAreaView><HeadIcon/>
-      <CatHead title="Indent Management" />
+        <View>
+          <HeadIcon/>
+      <CatHead title="Indent Request" />
       {!create &&
       <>
-      <SearchTab place="Search Indent" />
-      <Pressable style={styles.container} onPress={()=>setCreate(true)}>
-        <Text
-          style={{
-            margin: 10,
-            fontWeight: 'bold',
-            color: GlobalStyles.colors.p4,
-          }}>
-          Create New
-        </Text>
-      </Pressable>
+      
       <FlatList data={dummy} keyExtractor={(item)=>item.id} renderItem={renderItem}/>
       </>}
       {
@@ -117,7 +91,7 @@ export default function IndentManagement() {
         <Button title={'Submit Indent'} onPress={()=>setCreate(false)}/>
         </>
       }
-    </SafeAreaView>
+    </View>
   );
 }
 const styles = StyleSheet.create({

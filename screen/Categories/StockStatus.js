@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import CatHead from '../../component/CatHead';
 import { GlobalStyles } from '../../Styles/LightMode';
 import Stock from '../../component/Stock';
@@ -83,7 +83,7 @@ export default function StockStatus() {
         )
     }
   return (
-    <View>
+    <SafeAreaView>
       <CatHead title="Stock Status" />
       <View style={styles.container}>
        
@@ -100,7 +100,7 @@ export default function StockStatus() {
      
       </View>
       <FlatList data={dummy} keyExtractor={(item)=>item.id} renderItem={renderItem}/>
-    </View>
+    </SafeAreaView>
   );
 }
 
