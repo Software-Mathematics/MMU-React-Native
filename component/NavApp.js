@@ -26,8 +26,14 @@ import EditPatient from '../screen/SubCategories/EditPatient';
 import AssignDoctor from '../screen/SubCategories/AssignDoctor';
 import History from '../screen/SubCategories/History';
 import EmergencyDetails from '../screen/SubCategories/EmergencyDetails';
+import ResultAwaited from '../screen/Categories/ResultAwaited';
+import PatientQueue from '../screen/Categories/PatientQueue';
+import FollowUps from '../screen/Categories/FollowUps';
+import ChangeRequest from '../screen/Categories/ChangeRequest';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+
 
 export default function NavApp() {
   function Next() {
@@ -111,7 +117,14 @@ export default function NavApp() {
         <Stack.Screen name="Prescription" component={Prescription} />
         <Stack.Screen name="Indent" component={IndentManagement} />
         <Stack.Screen name="IndentRequest" component={IndentRequest} />
+        <Stack.Screen name='ResultAwaited' component={ResultAwaited}/>
+        <Stack.Screen name='PatientQueue' component={PatientQueue}/>
+        <Stack.Screen name='FollowUps' component={FollowUps}/>
+        <Stack.Screen name='ChangeRequest' component={ChangeRequest}/>
       </Stack.Navigator>
+
+      
+
     );
   }
   function Authentication() {

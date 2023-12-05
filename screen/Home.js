@@ -84,18 +84,18 @@ export default function Home({navigation,route}) {
       role=='doctor' &&
       <>
       <View style={{flexDirection: 'row', marginTop: 20}}>
-        <TaskTile title={'Change Request'} onPress={()=>navigation.navigate('Queue')}/>
+        <TaskTile title={'Change Request'} onPress={()=>navigation.navigate('ChangeRequest')}/>
         <TaskTile title="Follow Ups" 
-         onPress={()=>navigation.navigate('Benificiery')}/>
+         onPress={()=>navigation.navigate('FollowUps')}/>
          <TaskTile
           title="Result Awaited"
-          onPress={() => navigation.navigate('LabResult')}
+          onPress={() => navigation.navigate('ResultAwaited')}
         />
         
       </View>
       <View style={{flexDirection:'row'}}>
       <TaskTile title="Patient Queue" 
-        onPress={()=>navigation.navigate('Patient')}/>
+        onPress={()=>navigation.navigate('PatientQueue')}/>
         <TaskTile title={"Indent Request"} onPress={()=>navigation.navigate('IndentRequest')}/>
         <TaskTile title={"Test Results"} onPress={()=>navigation.navigate('LabResult')}/>
         </View>

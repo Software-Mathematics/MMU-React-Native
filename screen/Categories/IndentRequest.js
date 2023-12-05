@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text, FlatList, Pressable} from 'react-native';
+import {StyleSheet, View, Text, FlatList, Pressable,SafeAreaView} from 'react-native';
 import CatHead from '../../component/CatHead';
 import SearchTab from '../../component/SearchTab';
 import {GlobalStyles} from '../../Styles/LightMode';
@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { Dialog } from 'react-native-paper';
 import Input from '../../component/Input';
 import Button from '../../component/Button';
-import { SafeAreaView } from 'react-native-macos';
+
 import HeadIcon from '../../component/HeadIcon';
 
 export default function IndentRequest() {
@@ -56,7 +56,7 @@ export default function IndentRequest() {
 
   return (
     
-        <View>
+        <SafeAreaView>
           <HeadIcon/>
       <CatHead title="Indent Request" />
       {!create &&
@@ -91,7 +91,7 @@ export default function IndentRequest() {
         <Button title={'Submit Indent'} onPress={()=>setCreate(false)}/>
         </>
       }
-    </View>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
