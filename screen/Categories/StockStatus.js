@@ -2,6 +2,7 @@ import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import CatHead from '../../component/CatHead';
 import { GlobalStyles } from '../../Styles/LightMode';
 import Stock from '../../component/Stock';
+import HeadIcon from '../../component/HeadIcon';
 export default function StockStatus() {
     const dummy=[{
         id:1,
@@ -84,6 +85,7 @@ export default function StockStatus() {
     }
   return (
     <SafeAreaView>
+      <HeadIcon/>
       <CatHead title="Stock Status" />
       <View style={styles.container}>
        

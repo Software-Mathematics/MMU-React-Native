@@ -4,7 +4,7 @@ import {responsiveHeight, responsiveWidth} from 'react-native-responsive-dimensi
 export default function Input({place,value,onChange}) {
   return (
     <View style={styles.view}>
-      <TextInput placeholder={place} placeholderTextColor={GlobalStyles.colors.p1} style={{fontWeight:'bold'}} value={value} onChangeText={onChange}/>
+      <TextInput placeholder={place} placeholderTextColor={GlobalStyles.colors.p1} style={{fontWeight:'bold',color:GlobalStyles.colors.p1}} value={value} onChangeText={onChange}/>
       
     </View>
   );

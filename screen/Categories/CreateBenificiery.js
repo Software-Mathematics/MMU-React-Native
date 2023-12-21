@@ -40,19 +40,7 @@ export default function Benificiery({navigation}) {
     {label:'Labour',value:'labour'},
     {label:'N/A',value:'n/a'},
   ]
-    const [value, setValue] = useState(null);
-    const [isFocus, setIsFocus] = useState(false);
-
-    const renderLabel = () => {
-      if (value || isFocus) {
-        return (
-          <Text style={[styles.label, isFocus && { color: 'blue' }]}>
-            Dropdown label
-          </Text>
-        );
-      }
-      return null;
-    };
+    
   return (
     
       <SafeAreaView style={{flex:1}}>

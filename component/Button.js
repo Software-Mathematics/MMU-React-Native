@@ -1,9 +1,9 @@
 import { Pressable, View,Text, StyleSheet } from "react-native"
 import { GlobalStyles } from "../Styles/LightMode"
 import { responsiveHeight } from "react-native-responsive-dimensions"
-export default function Button({title,onPress}){
+export default function Button({title,onPress,style}){
     return(
-        <Pressable style={styles.view} onPress={onPress}>
+        <Pressable style={[styles.view,style]} onPress={onPress}>
             <Text style={styles.text}>{title}</Text>
         </Pressable>
     )

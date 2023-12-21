@@ -5,13 +5,18 @@ import Login from "./screen/Login";
 import Reset from "./screen/ResetPassword";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import NavApp from "./component/NavApp";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
-const Stack=createNativeStackNavigator();
+
+
 export default function App(){
   return(
+    <Provider store={store}>
     <NavigationContainer>
       <NavApp/>
     </NavigationContainer>
+    </Provider>
     
   )
 }

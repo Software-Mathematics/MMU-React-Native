@@ -7,7 +7,7 @@ import Progress from '../component/Progress';
 export default function Home({navigation,route}) {
   // const {role}=route.params
   const {role}=route.params;
-  // const role='doctor';
+  console.log(role)
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -17,7 +17,8 @@ export default function Home({navigation,route}) {
         />
         <View style={styles.header1}>
           <Text style={{fontWeight: '600', fontSize: 16,color:'black'}}>Hello</Text>
-          <Text style={{fontWeight: '800', fontSize: 16,color:'black'}}>{role==='nurse'?'Saraswati Kumari':(role=='doctor'?'Dr Sultan null':'user')}</Text>
+          <Text style={{fontWeight: '800', fontSize: 16,color:'black'}}>{role==='nurse'?'Saraswati Kumari':
+          (role=='doctor'?'Dr Sultan null':(role=='pharmacist'?'Rajesh Murmu':'user'))}</Text>
         </View>
       </View>
       <View style={styles.status}>
@@ -101,6 +102,60 @@ export default function Home({navigation,route}) {
         </View>
       </>
      }
+      {
+      role=='pharmacist' &&
+      <>
+      <View style={{flexDirection: 'row', marginTop: 20}}>
+        <TaskTile title={'Stock Status'} onPress={()=>navigation.navigate('Stock')}/>
+        <TaskTile title="Indent Management" 
+         onPress={()=>navigation.navigate('Indent')}/>
+         <TaskTile
+          title="Prescription Queue"
+          onPress={() => navigation.navigate('PrescriptionNaviagtor')}
+        />
+        </View>
+        </>
+      }
+
+      {
+        role =="Lab Technician" &&
+        <>
+        <View style={{flexDirection: 'row', marginTop: 20}}>
+        <TaskTile title={'Lab Kit Status'} onPress={()=>navigation.navigate('LabKitStatus')}/>
+         <TaskTile
+          title="Test Queue"
+          onPress={() => navigation.navigate('LabTest')}
+        />
+        <TaskTile title="Results" 
+         onPress={()=>navigation.navigate('LabResult')}/>
+        
+      </View>
+      
+      </>
+        
+      }
+
+{
+      role=='healthWorker' &&
+      <>
+      <View style={{flexDirection: 'row', marginTop: 20}}>
+        <TaskTile title={'Activity Records'} onPress={()=>navigation.navigate('ActivityRecords')}/>
+        <TaskTile title="Community Engagement" 
+         onPress={()=>navigation.navigate('CreateCommunity')}/>
+         <TaskTile
+          title="search Patient"
+          onPress={() => navigation.navigate('ResultAwaited')}
+        />
+        
+      </View>
+      <View style={{flexDirection:'row'}}>
+      <TaskTile title="Followup Patient" 
+        onPress={()=>navigation.navigate('PatientQueue')}/>
+        </View>
+      </>
+     }
+
+      
       
       
 

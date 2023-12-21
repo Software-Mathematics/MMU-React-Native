@@ -1,4 +1,12 @@
-import {View, Text, StyleSheet, Pressable, TextInput,} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  TextInput,
+  FlatList,
+  
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {GlobalStyles} from '../Styles/LightMode';
 import {useState} from 'react';
@@ -11,7 +19,9 @@ import {
 } from 'react-native-responsive-dimensions';
 import DropdownInput from './DropdownInput';
 import Button from './Button';
-
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { ScrollView } from 'react-native-virtualized-view';
 
 export default function ResultTile({
   name,
@@ -23,10 +33,10 @@ export default function ResultTile({
   DocNo,
 }) {
   const [isPressed, setPressed] = useState(false);
-  const navigation = useNavigation();
+
   const [medicne, setMedicine] = useState(false);
   const [line, setLine] = useState(false);
-
+  const [med, setMed] = useState([]);
   const addMedicine = () => {
     setMedicine(!medicne);
   };
@@ -39,6 +49,103 @@ export default function ResultTile({
     {label: 'Adhaar Card', value: 'adhaar'},
     {label: 'Ration Card', value: 'ration'},
   ];
+  const medicineList = [
+    {label: 'BComplex', value: 'CAP'},
+    {label: 'Cough Syrup', value: '100ML'},
+    {label: 'Ecosrine', value: 'FamotiDINE'},
+    {label: 'GAMA Benzene', value: '100ML'},
+  ];
+  const frequency = [
+    {label: 'BD', value: 'bd'},
+    {label: 'OD', value: 'od'},
+    {label: 'TDS', value: 'tds'},
+    {label: 'SOS as per need', value: 'sos'},
+    {label: 'HS - Night', value: 'hs'},
+    {label: 'BBF(Before Breakfast)', value: 'bbf'},
+    {label: 'QID', value: 'qid'},
+    {label: 'STAT', value: 'stat'},
+  ];
+
+  const handleButtonClick = () => {
+    const componentId = med.length + 1;
+    setMed([...med, {id: componentId}]);
+  };
+
+  const renderComponent = ({item}) => (
+    <Pressable
+      onPress={addLine}
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderWidth: 4,
+        borderRadius: 16,
+        borderColor: GlobalStyles.colors.p3,
+        margin: responsiveHeight(0.5),
+        padding: responsiveHeight(0.5),
+      }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          borderWidth: 4,
+          borderRadius: 16,
+          borderColor: GlobalStyles.colors.p3,
+          margin: responsiveHeight(0.5),
+          padding: responsiveHeight(0.5),
+        }}>
+        <Text
+          style={{
+            color: GlobalStyles.colors.p1,
+            fontWeight: '700',
+            fontSize: 16,
+            marginRight: responsiveWidth(8),
+          }}>
+          Medicine
+        </Text>
+        <AntDesign name="down" size={15} />
+      </View>
+      <View
+        style={[
+          styles.buttonView,
+          {
+            width: responsiveHeight(10),
+            backgroundColor: GlobalStyles.colors.p1,
+            margin: 4,
+            padding: responsiveHeight(1),
+            paddingHorizontal: responsiveHeight(2),
+            borderRadius: 20,
+            alignItems: 'center',
+          },
+        ]}
+        onPress={addLine}>
+        <Text style={[styles.buttonText]}>Medicine</Text>
+      </View>
+    </Pressable>
+  );
+
+  const [dose, setDose] = useState('');
+
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [selectedDate, setSelectedDate] = useState('dd:MM:YY');
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = date => {
+    // console.warn("A date has been picked: ", date);
+    const dt = new Date(date);
+    const x = dt.toISOString().split('T');
+    const x1 = x[0].split('-');
+    console.log(x1[2] + ':' + x1[1] + ':' + x1[0]);
+    setSelectedDate(x1[2] + ':' + x1[1] + ':' + x1[0]);
+    hideDatePicker();
+  };
   return (
     <>
       <View style={styles.container}>
@@ -77,27 +184,24 @@ export default function ResultTile({
         </>
       )}
 
-   
       <Dialog.Container
         visible={!!medicne}
         contentStyle={{
-          height: responsiveHeight(85),
+          height: responsiveHeight(90),
           width: responsiveWidth(90),
           paddingBottom: 105,
           alignItems: 'center',
-          borderColor:GlobalStyles.colors.p3,
-          borderWidth:4,
-          backgroundColor:'white'
+          borderColor: GlobalStyles.colors.p3,
+          borderWidth: 4,
+          backgroundColor: 'white',
         }}>
         <Dialog.Description>
-          <View style={{}}>
+          <ScrollView style={{}}>
             <Pressable
               style={{
-                marginVertical: 10,
                 justifyContent: 'flex-end',
                 alignItems: 'flex-end',
                 marginBottom: responsiveHeight(5),
-                
               }}
               onPress={addMedicine}>
               <MaterialIcons
@@ -108,15 +212,28 @@ export default function ResultTile({
             </Pressable>
             <View style={styles.dialog}>
               <Text style={styles.detail}>Disease</Text>
-              <View style={styles.input} >
-              <TextInput/></View>
-            </View>
-            <View style={styles.dialog}>
-              <Text style={styles.detail}>Remark:</Text>
               <DropdownInput
                 data={document}
                 style={{width: responsiveHeight(20)}}
               />
+            </View>
+            <View
+              style={[
+                styles.dialog,
+                {flexDirection: 'column', alignItems: 'flex-start'},
+              ]}>
+              <Text style={styles.detail}>Remark:</Text>
+              <View
+                style={[
+                  styles.input,
+                  {
+                    marginTop: responsiveHeight(2),
+                    height: responsiveHeight(10),
+                    width: responsiveWidth(60),
+                  },
+                ]}>
+                <TextInput style={{height: responsiveHeight(6)}} />
+              </View>
             </View>
             <View
               style={[
@@ -128,102 +245,126 @@ export default function ResultTile({
                   borderColor: GlobalStyles.colors.p3,
                   borderWidth: 3.5,
                   justifyContent: 'flex-end',
-                  height: responsiveHeight(7),
+                  
                   marginVertical: responsiveHeight(2),
                   borderRadius: 10,
                 }}>
+                <FlatList
+                  data={med}
+                  renderItem={renderComponent}
+                  keyExtractor={item => item.id.toString()}
+                />
                 <Pressable
                   style={[styles.buttonView, {width: responsiveHeight(10)}]}
                   onPress={addLine}>
-                  <Text style={[styles.buttonText,]}>Add Line</Text>
+                  <Text style={[styles.buttonText]}>Add Line</Text>
                 </Pressable>
               </View>
             </View>
-            <View style={{flexDirection:'row',alignItems:'center',}}>
-            <Pressable
-                  style={[styles.buttonView, ]}
-                  >
-                  <Text style={[styles.buttonText,{fontSize:16}]}>Select FoolowUp Date</Text>
-                </Pressable>
-              <Text>dd:MM:YY</Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Pressable style={[styles.buttonView]} onPress={showDatePicker}>
+                <Text style={[styles.buttonText, {fontSize: 16}]}>
+                  Select FoolowUp Date
+                </Text>
+              </Pressable>
+              <Text
+                style={{
+                  color: GlobalStyles.colors.p1,
+                  fontWeight: '800',
+                  marginLeft: responsiveHeight(2),
+                  fontSize: 14,
+                }}>
+                {selectedDate}
+              </Text>
+            </View>
+            <View>
+              <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
+              />
             </View>
             <Button title={'Submit Prescription'} />
-          </View>
+          </ScrollView>
         </Dialog.Description>
 
         {/* 2nd container */}
 
         <Dialog.Container
-        visible={!!line}
-        contentStyle={{
-          height: responsiveHeight(65),
-          width: responsiveWidth(90),
-          paddingBottom: 105,
-          alignItems: 'center',
-            borderColor:GlobalStyles.colors.p3,
-            borderWidth:4,
-            backgroundColor:'white'
-        }}>
-        <Dialog.Description>
-          <View style={{}}>
-            <Pressable
-              style={{
-                marginVertical: 10,
-                justifyContent: 'flex-end',
-                alignItems: 'flex-end',
-                marginBottom: responsiveHeight(5),
-              }}
-              onPress={addLine}>
-              <MaterialIcons
-                name="cancel"
-                color={GlobalStyles.colors.p1}
-                size={24}
-              />
-            </Pressable>
-            <View style={styles.dialog}>
-              <Text style={styles.detail}>Medicine</Text>
-              <DropdownInput
-                data={document}
-                style={{width: responsiveHeight(20)}}
-              />
-            </View>
-            <View style={styles.dialog}>
-              <Text style={styles.detail}>Frequency</Text>
-              <DropdownInput
-                data={document}
-                style={{width: responsiveHeight(20)}}
-              />
-            </View>
-            <View style={styles.dialog}>
+          visible={!!line}
+          contentStyle={{
+            height: responsiveHeight(75),
+            width: responsiveWidth(90),
+            paddingBottom: 105,
+            alignItems: 'center',
+            borderColor: GlobalStyles.colors.p3,
+            borderWidth: 4,
+            backgroundColor: 'white',
+          }}>
+          <Dialog.Description>
+            <View style={{}}>
+              <Pressable
+                style={{
+                  justifyContent: 'flex-end',
+                  alignItems: 'flex-end',
+                  marginBottom: responsiveHeight(5),
+                }}
+                onPress={addLine}>
+                <MaterialIcons
+                  name="cancel"
+                  color={GlobalStyles.colors.p1}
+                  size={24}
+                />
+              </Pressable>
+              <View style={styles.dialog}>
+                <Text style={styles.detail}>Medicine</Text>
+                <DropdownInput
+                  data={medicineList}
+                  style={{width: responsiveHeight(20)}}
+                />
+              </View>
+              <View style={styles.dialog}>
+                <Text style={styles.detail}>Frequency</Text>
+                <DropdownInput
+                  data={frequency}
+                  style={{width: responsiveHeight(20)}}
+                />
+              </View>
+              <View style={styles.dialog}>
                 <Text style={styles.detail}>UOM</Text>
                 <Text style={styles.detail}>UOM</Text>
-            </View>
-            <View style={styles.dialog}>
+              </View>
+              <View style={styles.dialog}>
                 <Text style={styles.detail}>Form</Text>
                 <Text style={styles.detail}>Form</Text>
-                
-            </View>
-            <View style={styles.dialog}>
+              </View>
+              <View style={styles.dialog}>
                 <Text style={styles.detail}>Dose</Text>
-                <TextInput style={styles.input}/>
-            </View>
-            <View style={styles.dialog}>
+                <TextInput
+                  style={styles.input}
+                  value={dose}
+                  onChangeText={txt => {
+                    setDose(txt);
+                  }}
+                />
+              </View>
+              <View style={styles.dialog}>
                 <Text style={styles.detail}>Duration Days</Text>
-                <TextInput style={styles.input}/>
-            </View>
-            <View style={{alignItems:'flex-end'}}>
-            <Pressable
+                <TextInput style={styles.input} />
+              </View>
+              <View style={{alignItems: 'flex-end'}}>
+                <Pressable
                   style={[styles.buttonView, {width: responsiveHeight(10)}]}
-                  onPress={addLine}>
+                  onPress={handleButtonClick}>
                   <Text style={styles.buttonText}>Submit</Text>
                 </Pressable>
+              </View>
             </View>
-          </View>
-        </Dialog.Description>
-      </Dialog.Container>
+          </Dialog.Description>
+        </Dialog.Container>
       </Dialog.Container>
       {/* </View> */}
-      
     </>
   );
 }
@@ -289,5 +430,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
+  },
+  component: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'lightgray',
   },
 });

@@ -4,7 +4,7 @@ import { responsiveHeight } from "react-native-responsive-dimensions";
 import { GlobalStyles } from "../Styles/LightMode";
 import { useState } from "react";
 import { SelectCountry } from "react-native-element-dropdown";
-export default function DropdownInput({data,onChange,style}){
+export default function DropdownInput({data,style}){
     const [value, setValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
 
@@ -35,7 +35,9 @@ export default function DropdownInput({data,onChange,style}){
           onChange={item => {
             setValue(item.value);
             setIsFocus(false);
-          }}/>
+          }}itemTextStyle={{}}
+          itemContainerStyle={{backgroundColor:'red',}}
+          />
     )
         }  
 

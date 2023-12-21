@@ -5,7 +5,7 @@ export default function ToDO({navigation,route}){
     return(
         <View>
             <Text>todo</Text>
-            <Button onPress={()=>navigation.navigate('NavApp',{ screen: 'Login' })}>Logout</Button>
+            <Button onPress={()=>navigation.navigate('NavApp',{ screen: 'Login' })} title={'Logout'}/>
         </View>
     )
 }

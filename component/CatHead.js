@@ -1,8 +1,9 @@
 import { StyleSheet,View,Text } from "react-native"
 import { GlobalStyles } from "../Styles/LightMode"
-export default function CatHead({title}){
+import { responsiveHeight } from "react-native-responsive-dimensions"
+export default function CatHead({title,style}){
     return(
-        <View style={styles.container}>
+        <View style={[styles.container,style]}>
           <Text
             style={{
               margin: 10,
@@ -21,7 +22,6 @@ const styles=StyleSheet.create({
     container: {
         alignItems: 'center',
         borderBottomWidth: 0.5,
-        margin: 10,
-        marginHorizontal:18
+        marginHorizontal: responsiveHeight(1),
       },
 })
