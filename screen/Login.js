@@ -7,6 +7,7 @@ import { useState } from "react";
 import axios from "axios";
 import { loginStart,loginSuccess,loginFailure } from "../redux/loginSlice";
 import { useDispatch,useSelector } from "react-redux";
+import { handleLogin } from "../redux/action";
 
 
 let rolecode='';
@@ -17,7 +18,7 @@ export default function Login({navigation}){
     const dispatch = useDispatch();
     
    
-    async function loginUser(){
+    async function loginUser(user,pass){
         // if(user=='Thf-0246' && pass=='123456'){
         //     role='nurse'
         //  }
@@ -43,7 +44,8 @@ export default function Login({navigation}){
             
         //     }})
         // }  
-        dispatch(loginStart());
+
+      
         try {
             const response=await axios.post('https://api.thehansfoundation.org/profile-service-mongo/api/ProfileEntity/v2/login',{
                 password: pass,
@@ -51,7 +53,7 @@ export default function Login({navigation}){
                 username: user
               });
               rolecode=response.data.data.dto.rolecode;
-            const role=JSON.stringify(response.data.data.dto.rolename)
+            const role=response.data.data.dto.rolename
               
               console.log(role)
 
@@ -60,8 +62,21 @@ export default function Login({navigation}){
                 const catNames = categories.data.data.dtoList.map(item => item.name);
                 
                 console.log(catNames)
-        
-              // Navigate to the next screen after a successful login
+
+                function createObject(name, village,patientid,age,predid,doctor,date,labTechnician,disease,uom,range,value) {
+                    return {name: name, village: village,id:patientid,age:age,ID:predid,doctor:doctor,
+                    date:date,labTechnician:labTechnician,disease:disease,uom:uom,range:range,value:value};
+                  }
+                  const data = [];
+                  const response1 = await axios.get(
+                    'https://api.thehansfoundation.org/aggregation-service/api/Aggregation/v1/getLabTestByVisit?recstatus=PRESCRIBED&mmucode=SI-17251',
+                  );
+                  const arr = response1.data.data.labTestAggregationList.map(
+                    item => item,
+                  );
+             
+                
+            //   Navigate to the next screen after a successful login
               const navigateAction = navigation.navigate('Next',{
                 screen:'Tab1',
                 params:{
@@ -76,7 +91,7 @@ export default function Login({navigation}){
               console.log(error);
             }
 
-            
+         
     }
     
     return(
@@ -86,7 +101,7 @@ export default function Login({navigation}){
         <View style={styles.tile}>
         <Input place='Username' value={user} onChange={(txt)=>setUser(txt)}/>
         <Input place='Password'value={pass} onChange={(txt)=>setPass(txt)}/>
-        <Button title='Continue' onPress={loginUser}/>
+        <Button title='Continue' onPress={()=>loginUser(user,pass)}/>
         <TouchableOpacity onPress={()=>navigation.navigate('Reset')} style={{alignItems:'center'}}><Text style={{color:'white'}}>Forget Password?</Text></TouchableOpacity>
         </View>
         

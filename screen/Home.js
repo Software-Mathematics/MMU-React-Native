@@ -6,7 +6,7 @@ import CircularProgress from 'react-native-circular-progress-indicator';
 import Progress from '../component/Progress';
 export default function Home({navigation,route}) {
   // const {role}=route.params
-  const {role}=route.params;
+  const {role,catNames}=route.params;
   console.log(role)
   return (
     <SafeAreaView style={styles.container}>
@@ -17,8 +17,9 @@ export default function Home({navigation,route}) {
         />
         <View style={styles.header1}>
           <Text style={{fontWeight: '600', fontSize: 16,color:'black'}}>Hello</Text>
-          <Text style={{fontWeight: '800', fontSize: 16,color:'black'}}>{role==='nurse'?'Saraswati Kumari':
-          (role=='doctor'?'Dr Sultan null':(role=='pharmacist'?'Rajesh Murmu':'user'))}</Text>
+          <Text style={{fontWeight: '800', fontSize: 16,color:'black'}}>
+            {role==='nurse'?'Saraswati Kumari':
+          (role=='doctor'?'Dr Sultan null':(role==='pharmacist'?'Rajesh Murmu':(role==='Lab Technician'?'Sanskar Singh':'user')))}</Text>
         </View>
       </View>
       <View style={styles.status}>
@@ -118,7 +119,7 @@ export default function Home({navigation,route}) {
       }
 
       {
-        role =="Lab Technician" &&
+        role==="Lab Technician" &&
         <>
         <View style={{flexDirection: 'row', marginTop: 20}}>
         <TaskTile title={'Lab Kit Status'} onPress={()=>navigation.navigate('LabKitStatus')}/>
