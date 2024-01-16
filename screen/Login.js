@@ -63,17 +63,7 @@ export default function Login({navigation}){
                 
                 console.log(catNames)
 
-                function createObject(name, village,patientid,age,predid,doctor,date,labTechnician,disease,uom,range,value) {
-                    return {name: name, village: village,id:patientid,age:age,ID:predid,doctor:doctor,
-                    date:date,labTechnician:labTechnician,disease:disease,uom:uom,range:range,value:value};
-                  }
-                  const data = [];
-                  const response1 = await axios.get(
-                    'https://api.thehansfoundation.org/aggregation-service/api/Aggregation/v1/getLabTestByVisit?recstatus=PRESCRIBED&mmucode=SI-17251',
-                  );
-                  const arr = response1.data.data.labTestAggregationList.map(
-                    item => item,
-                  );
+                
              
                 
             //   Navigate to the next screen after a successful login

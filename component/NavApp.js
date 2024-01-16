@@ -2,7 +2,6 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import Login from '../screen/Login';
 import Reset from '../screen/ResetPassword';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
 import Home from '../screen/Home';
 import Account from '../screen/Account';
 import ToDO from '../screen/ToDo';
@@ -16,8 +15,6 @@ import Benificiery from '../screen/Categories/CreateBenificiery';
 import StockStatus from '../screen/Categories/StockStatus';
 import IndentManagement from '../screen/Categories/IndentManagement';
 import IndentRequest from '../screen/Categories/IndentRequest';
-
-import {BottomNavigation, Text} from 'react-native-paper';
 import React from 'react';
 import {useIsFocused} from '@react-navigation/native';
 import Queue from '../screen/Categories/QueueStatus';
@@ -30,8 +27,6 @@ import ResultAwaited from '../screen/Categories/ResultAwaited';
 import PatientQueue from '../screen/Categories/PatientQueue';
 import FollowUps from '../screen/Categories/FollowUps';
 import ChangeRequest from '../screen/Categories/ChangeRequest';
-import Multi from './Multi';
-import DropdownMultiSelect from './Multi';
 import Update from '../screen/SubCategories/Update';
 import LabTest from '../screen/Categories/LabTest';
 import TestPrescription from '../screen/SubCategories/TestPrescription';

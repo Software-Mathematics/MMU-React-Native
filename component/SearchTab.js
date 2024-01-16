@@ -2,10 +2,10 @@ import { StyleSheet, View } from "react-native";
 import { TextInput } from "react-native-paper";
 import Icon from 'react-native-vector-icons/Ionicons'
 import { GlobalStyles } from "../Styles/LightMode";
-export default function SearchTab({place}){
+export default function SearchTab({place,onChangeText}){
     return(
         <View style={styles.container}>
-            <TextInput placeholder={place} style={{backgroundColor:'transparent',}}/>
+            <TextInput placeholder={place} style={{backgroundColor:'transparent',}} onChangeText={onChangeText}/>
             <Icon name='search-outline' size={26}/>
         </View>
     )

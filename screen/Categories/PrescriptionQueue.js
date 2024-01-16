@@ -2,7 +2,7 @@ import { FlatList, SafeAreaView, StyleSheet, Text,View ,ScrollView} from "react-
 import TestTile from "../../component/TestTile";
 import CatHead from "../../component/CatHead";
 import HeadIcon from "../../component/HeadIcon";
-import PrescriptionTile from "../../component/PrescriptionTile";
+import PrescriptionQueueTile from "../../component/PrescriptionQueueTile";
 
  const dummy=[
     {id:1,name:'abcd',age:30,prescription:'PRSI-34342334345343'},
@@ -15,7 +15,7 @@ import PrescriptionTile from "../../component/PrescriptionTile";
 
  function renderDetail(itemData){
     return(
-        <PrescriptionTile {...itemData.item}/>
+        <PrescriptionQueueTile {...itemData.item}/>
     )
 }
 export default function PrescriptionQueue(){

@@ -1,280 +1,115 @@
-import {View, Text, StyleSheet, Pressable, TextInput} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {GlobalStyles} from '../Styles/LightMode';
-import {useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
-
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import {
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
-
-export default function PrescriptionTile({name, age, prescription}) {
-  const [isPressed, setPressed] = useState(false);
-  const navigation = useNavigation();
-
-  
+import Icon from 'react-native-vector-icons/AntDesign';
+import Dialog from 'react-native-dialog';
+import { useState } from 'react';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import UpdateIcon from './UpdateIcon';
+import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
+export default function PrescriptionTile({id, name, age, mobile, ID,gender,village,address}) {
+  const[visible,setVisible]=useState(false);
+  function toggle(){
+    setVisible(!visible);
+  }
   return (
     <>
-      <View style={styles.container}>
-        <Pressable
-          onPress={() => {
-            setPressed(!isPressed);
-          }}
-          style={{
-            marginHorizontal: responsiveHeight(1),
-          }}>
-          <AntDesign name="down" color={GlobalStyles.colors.p1} size={32} />
-        </Pressable>
-        <View>
-          <View style={styles.subCont}>
-            <View>
-              <Text style={styles.subHead}>Name:</Text>
-            </View>
-            <View>
-              <Text style={styles.subDetail}>{name}</Text>
-            </View>
-          </View>
-          <View style={styles.subCont}>
-            <Text style={styles.subHead}>Age:</Text>
-            <Text style={styles.subDetail}>{age}</Text>
-          </View>
-          {isPressed && 
-          <>
-            <View style={styles.subCont}>
-              <Text style={styles.subHead}>Prescription:</Text>
-
-              <Text style={styles.subDetail}>{prescription}</Text>
-            </View>
-            <View style={styles.subCont}>
-            <Text style={styles.subHead}>Status:</Text>
-
-            <Text style={styles.subDetail}>PRESCRIBED</Text>
-          </View>
-          </>
-          }
+    <View style={styles.container}>
+      <View style={styles.heading}>
+      <View style={styles.entity}>
+        <Text style={styles.head}>Patient ID</Text>
+        <Text style={styles.detail}>{id}</Text>
+        </View>
+        <View style={styles.entity}>
+        <Text style={styles.head}>Patient Name</Text>
+        <Text style={styles.detail}>{name}</Text>
+        </View>
+        <View style={styles.entity}>
+        <Text style={styles.head}>Patient Age</Text>
+        <Text style={styles.detail}>{age}</Text>
+        </View>
+        
+        <View style={styles.entity}>
+        <Text style={styles.head}>Prescription ID</Text>
+        <Text style={styles.detail}>{ID}</Text>
+        </View>
+        <View style={styles.entity}>
+        <Text style={styles.head}>Mobile No.</Text>
+        <Text style={styles.detail}>{mobile}</Text>
         </View>
       </View>
-      {isPressed && (
-        <View style={styles.drop}>
-          <View style={{
-            marginBottom:responsiveHeight(1)
-
-          }}>
-            <View style={styles.headView}>
-              <Text style={styles.headText}>Med Desc</Text>
-              <Text style={styles.headText}>Freq</Text>
-              <Text style={styles.headText}>Dur.</Text>
-              <Text style={styles.headText}>UOMc</Text>
-              <Text style={styles.headText}>Qty.</Text>
-              <Text style={styles.headText}>Given</Text>
+      <UpdateIcon onPress={toggle}/>
+      </View>
+    
+     <View style={{flex:1,justifyContent:'center'}}> 
+      <Dialog.Container visible={!!visible}  contentStyle={{height: responsiveHeight(70), width: responsiveWidth(90), paddingBottom: 105,borderWidth:3.5,borderColor:GlobalStyles.colors.p3}}>
+       
+        <Dialog.Description >
+        <View >
+          <Pressable style={{marginVertical:10,alignItems:'flex-end',marginBottom:responsiveHeight(5)}} onPress={toggle}> 
+          <MaterialIcons name='cancel' color={GlobalStyles.colors.p1} size={18}/></Pressable>
+          <Text style={[styles.head,{fontSize:responsiveHeight(2)}]}>Prescription</Text>
+          <View style={styles.container}>
+          <View style={styles.heading}>
+          
+       
+        <View style={styles.entity}>
+            <Text style={styles.head}>Name:</Text>
+            <Text style={styles.detail}>{name}</Text>
             </View>
-            <View style={styles.detailView}>
-              <View>
-                <Text style={[styles.detailText]}>Syp Ferric</Text>
-                <Text style={styles.detailText}>Amminium</Text>
-              </View>
-              <Text style={styles.detailText}>OD</Text>
-              <Text style={styles.detailText}>1</Text>
-              <Text style={styles.detailText}>NA</Text>
-              <Text style={styles.detailText}>1.0</Text>
-              <View
-                style={{
-                  alignItems: 'center',
-                  width: responsiveHeight(7.5),
-                }}>
-                <TextInput
-                  style={{
-                    borderWidth: 3.5,
-                    borderColor: GlobalStyles.colors.p3,
-                    borderRadius: 16,
-                    width: responsiveHeight(5),
-                    justifyContent: 'center',
-                    height: responsiveHeight(4),
-                    backgroundColor: '#ffff',
-                    paddingHorizontal: responsiveHeight(2),
-                  }}
-                />
-              </View>
+        <View style={styles.entity}>
+            <Text style={styles.head}>Village</Text>
+            <Text style={styles.detail}>{village}</Text>
+            </View>
+        <View style={styles.entity}>
+            <Text style={styles.head}>Address:</Text>
+            <Text style={styles.detail}>{address}</Text>
+            </View>
+        <View style={styles.entity}>
+            <Text style={styles.head}>Age:</Text>
+            <Text style={styles.detail}>{age}</Text>
+            </View>
+            <View style={styles.entity}>
+            <Text style={styles.head}>Gender:</Text>
+            <Text style={styles.detail}>{gender}</Text>
+            </View>
             </View>
           </View>
-          <Text style={{
-            fontWeight:'700',
-            color:GlobalStyles.colors.p1,
-            marginBottom:responsiveHeight(1)
-
-          }}>Form</Text>
-          <View style={{
-            flexDirection:'row',
-            alignItems:'center',
-            marginBottom:responsiveHeight(1)
-          }}>
-          <Text style={{
-            fontWeight:'700',
-            color:GlobalStyles.colors.p1,
-            marginRight:responsiveHeight(1),
-            justifyContent:'space-between'
-          }}>Batch</Text>
-          <View style={{
-            borderWidth:3.5,
-            borderColor:GlobalStyles.colors.p3,
-            padding:responsiveHeight(1),
-            flex:1,
-            backgroundColor:'#ffff',
-            borderRadius:16
-          }}>
-            <Text>Time stamp</Text>
+         
           </View>
-          </View>
-          <View style={styles.headView}>
-              <Text style={styles.headText}>Med Desc</Text>
-              <Text style={styles.headText}>Freq</Text>
-              <Text style={styles.headText}>Dur.</Text>
-              <Text style={styles.headText}>UOMc</Text>
-              <Text style={styles.headText}>Qty.</Text>
-              <Text style={styles.headText}>Given</Text>
-            </View>
-            <View style={styles.detailView}>
-              <View>
-                <Text style={[styles.detailText]}>Syp Ferric</Text>
-                <Text style={styles.detailText}>Amminium</Text>
-              </View>
-              <Text style={styles.detailText}>OD</Text>
-              <Text style={styles.detailText}>1</Text>
-              <Text style={styles.detailText}>NA</Text>
-              <Text style={styles.detailText}>1.0</Text>
-              <View
-                style={{
-                  alignItems: 'center',
-                  width: responsiveHeight(7.5),
-                }}>
-                <TextInput
-                  style={{
-                    borderWidth: 3.5,
-                    borderColor: GlobalStyles.colors.p3,
-                    borderRadius: 16,
-                    width: responsiveHeight(5),
-                    justifyContent: 'center',
-                    height: responsiveHeight(4),
-                    backgroundColor: '#ffff',
-                    paddingHorizontal: responsiveHeight(2),
-                  }}
-                />
-              </View>
-            </View>
-          <Text style={{
-            fontWeight:'700',
-            color:GlobalStyles.colors.p1,
-            marginBottom:responsiveHeight(1)
-
-          }}>Form</Text>
-          <View style={{
-            flexDirection:'row',
-            alignItems:'center',
-            marginBottom:responsiveHeight(1)
-          }}>
-          <Text style={{
-            fontWeight:'700',
-            color:GlobalStyles.colors.p1,
-            marginRight:responsiveHeight(1),
-            justifyContent:'space-between'
-          }}>Batch</Text>
-          <View style={{
-            borderWidth:3.5,
-            borderColor:GlobalStyles.colors.p3,
-            padding:responsiveHeight(1),
-            flex:1,
-            backgroundColor:'#ffff',
-            borderRadius:16
-          }}>
-            <Text>Time stamp</Text>
-          </View>
-          </View>
-          <View style={styles.button}>
-         <Pressable style={styles.buttonView}>
-             <Text style={styles.buttonText}>Update</Text>
-         </Pressable>
-         <Pressable 
-         onPress={()=>navigation.navigate('PrescriptionRequest',{
-            name:name,
-            age:age,
-            prescription:prescription
-         })}
-         style={[
-            styles.buttonView,{backgroundColor:GlobalStyles.colors.p1}
-        ]}
-         >
-             <Text style={styles.buttonText}>Req. Change</Text>
-         </Pressable>
-     </View>
-        </View>
-      )}
+        </Dialog.Description>
+      </Dialog.Container>
+    </View>
     </>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    margin: 10,
-    borderTopWidth: 0.75,
-    paddingTop: 10,
+    margin: responsiveHeight(1),
+    marginTop: responsiveHeight(1),
+    borderBottomWidth: 2,
+    borderColor: GlobalStyles.colors.p1,
+    justifyContent: 'space-between',
+    
   },
-  subCont: {
-    flexDirection: 'row',
-    marginLeft: 16,
-    // justifyContent:'space-between',
-    marginBottom: 2,
+  heading: {
+   
+    marginBottom: 20,
   },
-  subHead: {
-    marginRight: 40,
-    width: 100,
-    marginBottom: 8,
+  head: {
     color: GlobalStyles.colors.p1,
     fontWeight: '900',
+    fontSize: 15,marginBottom:responsiveHeight(1),
+    width:responsiveHeight(16)
   },
-  subDetail: {
+  detail: {
     color: GlobalStyles.colors.p1,
+    fontSize: 15,
     fontWeight: '600',
-  },
-  drop: {
-    marginHorizontal: responsiveHeight(1),
-    paddingTop: responsiveHeight(1.5),
-  },
-  headView: {
-    flexDirection: 'row',
-    // justifyContent:'space-between'
-  },
-  headText: {
-    color: GlobalStyles.colors.p1,
-    width: responsiveHeight(7.70),
-    textAlign: 'center',
-    fontWeight: '700',
-  },
-  detailView: {
-    flexDirection: 'row',
-    marginTop: responsiveHeight(1),
-  },
-  detailText: {
-    color: GlobalStyles.colors.p1,
-    width: responsiveHeight(7.70),
-    textAlign: 'center',
-    fontWeight: '600',
-  },
-  buttonView:{
-    backgroundColor:GlobalStyles.colors.p1,
-    padding:responsiveHeight(1),
-    borderRadius:16,
-    paddingHorizontal:responsiveHeight(2)
-},
-button:{
-    flexDirection:'row',
-    justifyContent:'space-evenly',
-    marginVertical:responsiveHeight(2)
-},
-buttonText:{
-    color:GlobalStyles.colors.p4,
-    fontWeight:'600'
-}
+    marginBottom:responsiveHeight(1),
+    alignItems:'flex-start',
+    width:responsiveHeight(18)
+  },entity:{
+    flexDirection:'row'
+  }
 });

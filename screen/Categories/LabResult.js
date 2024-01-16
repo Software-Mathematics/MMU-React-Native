@@ -10,41 +10,11 @@ import {useState, useEffect} from 'react';
 
 export default function LabResult() {
   const [array, setData] = useState([]);
+  const [allData,setAllData]=useState([])
   useEffect(() => {
     async function LabResultApi() {
       try {
-        function createObject(
-          name,
-          village,
-          patientid,
-          age,
-          predid,
-          doctor,
-          date,
-          labTechnician,
-          disease,
-          uom,
-          range,
-          value,
-        ) {
-          return {
-            name: name,
-            village: village,
-            id: patientid,
-            age: age,
-            ID: predid,
-            date: date,
-            doctor: doctor,
-            labTechnician: labTechnician,
-            disease: disease,
-            uom: uom,
-            range: range,
-            value: value,
-          };
-        }
-
-        function add() {}
-        const data = [];
+        const data=[]
         const response = await axios.get(
           'https://api.thehansfoundation.org/aggregation-service/api/Aggregation/v1/getLabTestByVisit?recstatus=PRESCRIBED&mmucode=SI-17251',
         );
@@ -75,6 +45,7 @@ export default function LabResult() {
         });
         setTimeout(() => {
           setData(data);
+          setAllData(data)
         }, 1);
       } catch (error) {
         console.log(error);
@@ -82,7 +53,22 @@ export default function LabResult() {
     }
     LabResultApi();
   }, []);
-
+  
+  const onSearch=(txt)=>{
+    if(txt==''){
+      setData(allData)
+    }
+    else{
+      let tempList=array.filter(item =>{
+        return (item.village.toLowerCase().indexOf(txt.toLowerCase())>-1 ||
+        item.id.toLowerCase().indexOf(txt.toLowerCase())>-1 || item.age.indexOf(txt)>-1 ||
+        item.ID.toLowerCase().indexOf(txt.toLowerCase())>-1)
+      })
+      setData(tempList)
+    }
+    
+    
+  }
   function renderDetail(itemData) {
     return <Result {...itemData.item} />;
   }
@@ -90,7 +76,9 @@ export default function LabResult() {
     <SafeAreaView>
       <HeadIcon />
       <CatHead title="Search Lab Results" />
-      <SearchTab />
+      <SearchTab onChangeText={(txt)=>{
+        onSearch(txt)
+      }}/>
       <FlatList
         data={array}
         keyExtractor={item => item.ID}

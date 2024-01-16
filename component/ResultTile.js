@@ -10,7 +10,6 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import {GlobalStyles} from '../Styles/LightMode';
 import {useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
 import Dialog from 'react-native-dialog';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
@@ -22,15 +21,12 @@ import Button from './Button';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { ScrollView } from 'react-native-virtualized-view';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 export default function ResultTile({
   name,
   age,
-  ID,
-  mob,
-  village,
-  DocType,
-  DocNo,
 }) {
   const [isPressed, setPressed] = useState(false);
 
@@ -43,6 +39,34 @@ export default function ResultTile({
   const addLine = () => {
     setLine(!line);
   };
+
+  useEffect(() => {
+    async function DropdownApi() {
+      try {
+        
+        const frequency = [];
+        const response = await axios.get(
+          'https://api.thehansfoundation.org/disease-service/api/Disease/v1/get',
+        );
+        const arr = response.data.data.map(item => item);
+ 
+        arr.forEach(item => {
+          let obj = {};
+            item.prescriptionlist.map(item => {
+            (obj.id= item.id),
+            (obj.name = item.name),
+            (obj.age = item.age)
+            });
+          data.push(obj);
+        });
+       
+        // console.log(arr)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    DropdownApi();
+  }, []);
   const document = [
     {label: 'Drv License', value: 'driving'},
     {label: 'PAN Card', value: 'pan'},
@@ -70,6 +94,36 @@ export default function ResultTile({
     const componentId = med.length + 1;
     setMed([...med, {id: componentId}]);
   };
+
+  useEffect(() => {
+    async function LabResultApi() {
+      try {
+        
+        const data = [];
+        const response = await axios.get(
+          'https://api.thehansfoundation.org/aggregation-service/api/Aggregation/v1/get?mmucode=SI-17251&recstatus=RESULT_AWAITED',
+        );
+        const arr = response.data.data.visitAggregationDTOList.map(item => item);
+ 
+        arr.forEach(item => {
+          let obj = {};
+            item.prescriptionlist.map(item => {
+            (obj.id= item.id),
+            (obj.name = item.name),
+            (obj.age = item.age)
+            });
+          data.push(obj);
+        });
+        setTimeout(() => {
+          setData(data);
+        }, 1);
+        // console.log(arr)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    LabResultApi();
+  },[]);
 
   const renderComponent = ({item}) => (
     <Pressable

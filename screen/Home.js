@@ -18,8 +18,8 @@ export default function Home({navigation,route}) {
         <View style={styles.header1}>
           <Text style={{fontWeight: '600', fontSize: 16,color:'black'}}>Hello</Text>
           <Text style={{fontWeight: '800', fontSize: 16,color:'black'}}>
-            {role==='nurse'?'Saraswati Kumari':
-          (role=='doctor'?'Dr Sultan null':(role==='pharmacist'?'Rajesh Murmu':(role==='Lab Technician'?'Sanskar Singh':'user')))}</Text>
+            {role==='Nurse'?'Saraswati Kumari':
+          (role=='Doctor'?'Dr Sultan null':(role==='pharmacist'?'Rajesh Murmu':(role==='Lab Technician'?'Sanskar Singh':'user')))}</Text>
         </View>
       </View>
       <View style={styles.status}>
@@ -62,7 +62,7 @@ export default function Home({navigation,route}) {
         </Text>
       </View>
       
-        {role=='nurse' && 
+        {role=='Nurse' && 
         <>
         <View style={{flexDirection: 'row', marginTop: 20}}>
         <TaskTile title={'Queue Status'} onPress={()=>navigation.navigate('Queue')}/>
@@ -83,7 +83,7 @@ export default function Home({navigation,route}) {
         }
      
      {
-      role=='doctor' &&
+      role=='Doctor' &&
       <>
       <View style={{flexDirection: 'row', marginTop: 20}}>
         <TaskTile title={'Change Request'} onPress={()=>navigation.navigate('ChangeRequest')}/>

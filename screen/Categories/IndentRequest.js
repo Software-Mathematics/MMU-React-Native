@@ -3,55 +3,53 @@ import CatHead from '../../component/CatHead';
 import SearchTab from '../../component/SearchTab';
 import {GlobalStyles} from '../../Styles/LightMode';
 import Indent from '../../component/Indent';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Dialog } from 'react-native-paper';
 import Input from '../../component/Input';
 import Button from '../../component/Button';
 
 import HeadIcon from '../../component/HeadIcon';
-
+import axios from 'axios';
 export default function IndentRequest() {
-    const dummy=[
-        {
-            id:1,
-            ID:'rhd-373',
-            submit:'Rajesh',
-            date:'2020-03-03',
-            status:'RECIEVED'
-        },
-        {
-            id:2,
-            ID:'rhd-373',
-            submit:'Rajesh',
-            date:'2020-03-03',
-            status:'RECIEVED'
-        },{
-            id:3,
-            ID:'rhd-373',
-            submit:'Rajesh',
-            date:'2020-03-03',
-            status:'RECIEVED'
-        },{
-            id:4,
-            ID:'rhd-373',
-            submit:'Rajesh',
-            date:'2020-03-03',
-            status:'RECIEVED'
-        },{
-            id:5,
-            ID:'rhd-373',
-            submit:'Rajesh',
-            date:'2020-03-03',
-            status:'RECIEVED'
-        }
-    ]
+    const [array, setData] = useState([]);
+  useEffect(() => {
+    async function LabResultApi() {
+      try {
+        
+        const data = [];
+        const response = await axios.get(
+          'https://api.thehansfoundation.org/medrequisitiongen-service/api/MedRequisitionGen/v1/getRequisitionAggregation?mmucode=SI-17251&recstatus=OPEN',
+        );
+        const arr = response.data.data.medRequisitionAggregationList.map(item => item);
+
+        arr.forEach(item => {
+          let obj = {};
+            item.medrequisitiongendtoList.map(item => {
+            (obj.ID = item.mrnumber),
+            (obj.submit = item.createdby),
+            (obj.date = item.createddate),
+            (obj.status = item.recstatus)
+            });
+          data.push(obj);
+        });
+        setTimeout(() => {
+          setData(data);
+        }, 1);
+        // console.log(arr)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    LabResultApi();
+  }, []);
 
     function renderItem(itemData){
+      
         return(
             <Indent {...itemData.item}/>
         )
     }
-
+    
     const [create,setCreate]=useState(false)
 
   return (
@@ -62,7 +60,7 @@ export default function IndentRequest() {
       {!create &&
       <>
       
-      <FlatList data={dummy} keyExtractor={(item)=>item.id} renderItem={renderItem}/>
+      <FlatList data={array} keyExtractor={(item)=>item.ID} renderItem={renderItem}/>
       </>}
       {
         create &&
