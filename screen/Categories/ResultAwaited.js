@@ -30,7 +30,7 @@ export default function ResultAwaited(){
           });
           setTimeout(() => {
             setData(data);
-          }, 1);
+          }, 1000);
           // console.log(arr)
         } catch (error) {
           console.log(error);

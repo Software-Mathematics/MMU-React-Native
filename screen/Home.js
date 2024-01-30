@@ -104,7 +104,7 @@ export default function Home({navigation,route}) {
       </>
      }
       {
-      role=='pharmacist' &&
+      role=='Pharmacist' &&
       <>
       <View style={{flexDirection: 'row', marginTop: 20}}>
         <TaskTile title={'Stock Status'} onPress={()=>navigation.navigate('Stock')}/>
@@ -137,7 +137,7 @@ export default function Home({navigation,route}) {
       }
 
 {
-      role=='healthWorker' &&
+      role=='Health Worker' &&
       <>
       <View style={{flexDirection: 'row', marginTop: 20}}>
         <TaskTile title={'Activity Records'} onPress={()=>navigation.navigate('ActivityRecords')}/>
